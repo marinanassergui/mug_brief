@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn, useFormContext } from "react-hook-form";
 
 // Helper to mask Brazilian phone numbers: (XX) XXXXX-XXXX
 export function formatWhatsApp(value: string) {
@@ -33,11 +33,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Sync input ref with react-hook-form and local ref
     const { ref: regRef, onChange: regOnChange, onBlur: regOnBlur, name } = registration;
 
+    // Use RHF FormContext to watch changes programmatically (e.g. pre-fills and draft restores)
+    const formContext = useFormContext();
+    const watchedValue = formContext ? formContext.watch(name) : undefined;
+
     useEffect(() => {
       if (inputRef.current) {
         setValue(inputRef.current.value || "");
       }
-    }, []);
+    }, [watchedValue]);
 
     const handleFocus = () => {
       setIsFocused(true);
@@ -58,7 +62,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       regOnChange(e);
     };
 
-    const hasContent = value.length > 0;
+    // Float if focused, has local value, OR has RHF watched value
+    const hasRHFValue = watchedValue !== undefined && watchedValue !== null && watchedValue !== "";
+    const hasContent = value.length > 0 || hasRHFValue;
     const isFloating = isFocused || hasContent;
 
     return (

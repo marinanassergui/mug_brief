@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import { UseFormRegisterReturn, useFormContext } from "react-hook-form";
 
 interface TextareaProps extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name" | "onBlur" | "onChange"> {
   label: string;
@@ -15,11 +15,15 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 
     const { ref: regRef, onChange: regOnChange, onBlur: regOnBlur, name } = registration;
 
+    // Use RHF FormContext to watch changes programmatically (e.g. pre-fills and draft restores)
+    const formContext = useFormContext();
+    const watchedValue = formContext ? formContext.watch(name) : undefined;
+
     useEffect(() => {
       if (textareaRef.current) {
         setValue(textareaRef.current.value || "");
       }
-    }, []);
+    }, [watchedValue]);
 
     const handleFocus = () => {
       setIsFocused(true);
@@ -35,7 +39,9 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       regOnChange(e);
     };
 
-    const hasContent = value.length > 0;
+    // Float if focused, has local value, OR has RHF watched value
+    const hasRHFValue = watchedValue !== undefined && watchedValue !== null && watchedValue !== "";
+    const hasContent = value.length > 0 || hasRHFValue;
     const isFloating = isFocused || hasContent;
 
     return (
