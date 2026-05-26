@@ -21,11 +21,6 @@ import { MultiSelect } from "@/components/form/MultiSelect";
 import {
   briefingSchema,
   BriefingData,
-  step1Schema,
-  step2BaseSchema,
-  step3Schema,
-  step4Schema,
-  step5Schema,
 } from "@/lib/schemas/briefingSchema";
 import { getDraft, saveDraft, clearDraft } from "@/lib/storage/localStorageHelpers";
 
@@ -67,10 +62,6 @@ export default function BriefingWizardPage() {
       brandbookDrive: "",
       tomDeVoz: [],
       estiloEvitar: "",
-      prazo: "",
-      orcamento: "",
-      plataforma: "",
-      extraInfo: "",
       concordo: false,
     },
   });
@@ -118,9 +109,7 @@ export default function BriefingWizardPage() {
       case 3:
         return ["tipoLP", "objetivoPrincipal", "metricaSucesso", "siteLPAtual", "problemasLPAtual", "estadoCopy"];
       case 4:
-        return ["ref1", "ref2", "ref3", "refMotivo", "identidadeVisual", "brandbookDrive", "tomDeVoz", "estiloEvitar"];
-      case 5:
-        return ["prazo", "orcamento", "plataforma", "extraInfo", "concordo"];
+        return ["ref1", "ref2", "ref3", "refMotivo", "identidadeVisual", "brandbookDrive", "tomDeVoz", "estiloEvitar", "concordo"];
       default:
         return [];
     }
@@ -133,7 +122,7 @@ export default function BriefingWizardPage() {
 
     if (isStepValid) {
       setSubmitError(null);
-      setStep((prev) => Math.min(prev + 1, 5));
+      setStep((prev) => Math.min(prev + 1, 4));
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -156,11 +145,11 @@ export default function BriefingWizardPage() {
         return;
       }
       
-      if (step < 5) {
+      if (step < 4) {
         e.preventDefault();
         handleNextStep();
       }
-      // On step 5, let standard form submit happen naturally
+      // On step 4, let standard form submit happen naturally
     }
   };
 
@@ -182,7 +171,7 @@ export default function BriefingWizardPage() {
         throw new Error(result.error || "Erro ao enviar briefing.");
       }
 
-      // Success: clear draft draft, and redirect to confirmation
+      // Success: clear draft, and redirect to confirmation page
       clearDraft();
       router.push(`/briefing/confirmacao?email=${encodeURIComponent(data.email)}&time=${Date.now()}`);
     } catch (error: any) {
@@ -430,11 +419,11 @@ export default function BriefingWizardPage() {
                 </div>
               )}
 
-              {/* STAGE 4: REFERENCES & BRAND STYLE */}
+              {/* STAGE 4: REFERENCES & BRAND STYLE (NOW THE LAST STAGE) */}
               {step === 4 && (
                 <div className="flex flex-col gap-8 w-full">
                   <div className="flex flex-col gap-2">
-                    <Eyebrow>04 — REFERÊNCIAS</Eyebrow>
+                    <Eyebrow>04 — REFERÊNCIAS & ESTILO</Eyebrow>
                     <h2 className="text-h2 text-foreground-primary">Como você quer que pareça?</h2>
                   </div>
                   
@@ -510,69 +499,8 @@ export default function BriefingWizardPage() {
                       registration={register("estiloEvitar")}
                       error={errors.estiloEvitar?.message}
                     />
-                  </div>
-                </div>
-              )}
 
-              {/* STAGE 5: BUDGET & TIMELINE */}
-              {step === 5 && (
-                <div className="flex flex-col gap-8 w-full">
-                  <div className="flex flex-col gap-2">
-                    <Eyebrow>05 — PRAZO & ORÇAMENTO</Eyebrow>
-                    <h2 className="text-h2 text-foreground-primary">Última etapa.</h2>
-                  </div>
-                  
-                  <div className="flex flex-col gap-6 w-full">
-                    <RadioGroup
-                      label="Quando precisa que a LP esteja no ar?"
-                      error={errors.prazo?.message}
-                      registration={register("prazo")}
-                      value={watch("prazo")}
-                      options={[
-                        { value: "Tenho urgência (7 dias)", label: "Tenho urgência (7 dias)" },
-                        { value: "Em até 3 semanas", label: "Em até 3 semanas" },
-                        { value: "Em até 2 meses", label: "Em até 2 meses" },
-                        { value: "Sem prazo definido", label: "Sem prazo definido" },
-                      ]}
-                    />
-
-                    <RadioGroup
-                      label="Faixa de investimento prevista"
-                      error={errors.orcamento?.message}
-                      registration={register("orcamento")}
-                      value={watch("orcamento")}
-                      options={[
-                        { value: "Até R$ 5.000", label: "Até R$ 5.000" },
-                        { value: "R$ 5.000-10.000", label: "R$ 5.000-10.000" },
-                        { value: "R$ 10.000-20.000", label: "R$ 10.000-20.000" },
-                        { value: "R$ 20.000-40.000", label: "R$ 20.000-40.000" },
-                        { value: "Acima de R$ 40.000", label: "Acima de R$ 40.000" },
-                        { value: "Prefiro discutir", label: "Prefiro discutir" },
-                      ]}
-                    />
-
-                    <RadioGroup
-                      label="Plataforma preferida"
-                      error={errors.plataforma?.message}
-                      registration={register("plataforma")}
-                      value={watch("plataforma")}
-                      options={[
-                        { value: "Webflow", label: "Webflow" },
-                        { value: "Framer", label: "Framer" },
-                        { value: "Lovable", label: "Lovable" },
-                        { value: "Tenho time de dev", label: "Tenho time de dev" },
-                        { value: "Não sei, quero recomendação", label: "Não sei, quero recomendação" },
-                      ]}
-                    />
-
-                    <Textarea
-                      label="Algo importante que não perguntamos?"
-                      maxLength={1000}
-                      registration={register("extraInfo")}
-                      error={errors.extraInfo?.message}
-                    />
-
-                    {/* Checkbox obrigatório do retorno */}
+                    {/* Relocated terms agreement checkbox from Step 5 */}
                     <div className="flex flex-col gap-2 pt-4">
                       <label className="flex items-start gap-3 cursor-pointer select-none">
                         <input
@@ -619,7 +547,7 @@ export default function BriefingWizardPage() {
               <NavigationButtons
                 onBack={handleBackStep}
                 isSubmitting={isSubmitting}
-                isLastStep={step === 5}
+                isLastStep={step === 4}
                 onNextClick={handleNextStep}
               />
               

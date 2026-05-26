@@ -69,20 +69,8 @@ export function formatEmail(data: BriefingData, timestamp: string): EmailTemplat
                   <td style="padding-bottom: 12px; font-size: 14px; font-weight: 400;"><a href="https://wa.me/${data.whatsapp.replace(/\D/g, "")}" style="color: #000000; text-decoration: underline;">${data.whatsapp}</a></td>
                 </tr>
                 <tr>
-                  <td style="padding-bottom: 12px; font-size: 14px; font-weight: 700;">Tipo de LP:</td>
-                  <td style="padding-bottom: 12px; font-size: 14px; font-weight: 400;">${data.tipoLP}</td>
-                </tr>
-                <tr>
-                  <td style="padding-bottom: 12px; font-size: 14px; font-weight: 700;">Prazo Desejado:</td>
-                  <td style="padding-bottom: 12px; font-size: 14px; font-weight: 400;">${data.prazo}</td>
-                </tr>
-                <tr>
-                  <td style="padding-bottom: 12px; font-size: 14px; font-weight: 700;">Orçamento:</td>
-                  <td style="padding-bottom: 12px; font-size: 14px; font-weight: 400;">${data.orcamento}</td>
-                </tr>
-                <tr>
-                  <td style="font-size: 14px; font-weight: 700;">Plataforma:</td>
-                  <td style="font-size: 14px; font-weight: 400;">${data.plataforma}</td>
+                  <td style="font-size: 14px; font-weight: 700;">Tipo de LP:</td>
+                  <td style="font-size: 14px; font-weight: 400;">${data.tipoLP}</td>
                 </tr>
               </table>
             </td>
@@ -211,29 +199,6 @@ export function formatEmail(data: BriefingData, timestamp: string): EmailTemplat
 
           <!-- DIVISÓRIA -->
           <tr>
-            <td style="border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 12px;"></td>
-          </tr>
-
-          <!-- ETAPA 5 -->
-          <tr>
-            <td style="padding: 32px 0 16px 0;">
-              <span style="font-size: 11px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(0,0,0,0.5); display: block; margin-bottom: 16px;">05 — PRAZO & ORÇAMENTO</span>
-              <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 700; color: #000000;">Quando precisa que a LP esteja no ar?</p>
-              <p style="margin: 0 0 16px 0; font-size: 15px; font-weight: 400; line-height: 1.4; color: rgba(0,0,0,0.8);">${data.prazo}</p>
-              
-              <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 700; color: #000000;">Faixa de investimento prevista</p>
-              <p style="margin: 0 0 16px 0; font-size: 15px; font-weight: 400; line-height: 1.4; color: rgba(0,0,0,0.8);">${data.orcamento}</p>
-              
-              <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 700; color: #000000;">Plataforma preferida</p>
-              <p style="margin: 0 0 16px 0; font-size: 15px; font-weight: 400; line-height: 1.4; color: rgba(0,0,0,0.8);">${data.plataforma}</p>
-              
-              <p style="margin: 0 0 4px 0; font-size: 13px; font-weight: 700; color: #000000;">Algo importante que não perguntamos?</p>
-              <p style="margin: 0 0 16px 0; font-size: 15px; font-weight: 400; line-height: 1.4; color: rgba(0,0,0,0.8);">${data.extraInfo || "Sem observações adicionais"}</p>
-            </td>
-          </tr>
-
-          <!-- DIVISÓRIA -->
-          <tr>
             <td style="border-bottom: 1px solid #000000; padding-bottom: 12px;"></td>
           </tr>
 
@@ -241,7 +206,7 @@ export function formatEmail(data: BriefingData, timestamp: string): EmailTemplat
           <tr>
             <td style="padding-top: 32px; font-size: 12px; line-height: 1.5; color: rgba(0,0,0,0.5);">
               <p style="margin: 0 0 8px 0; font-weight: 600; color: #000000;">Para responder ao cliente, basta dar "Reply/Responder" diretamente neste e-mail.</p>
-              <p style="margin: 0;">Enviado por briefing-mug em <a href="https://mug.studio" style="color: rgba(0,0,0,0.5); text-decoration: underline;">mug.studio</a></p>
+              <p style="margin: 0;">Enviado por briefing-mug em <a href="https://mugstudio.com.br" style="color: rgba(0,0,0,0.5); text-decoration: underline;">mugstudio.com.br</a></p>
             </td>
           </tr>
 
@@ -265,9 +230,6 @@ RESUMO EXECUTIVO:
 - E-mail: ${data.email}
 - WhatsApp: ${data.whatsapp}
 - Tipo de LP: ${data.tipoLP}
-- Prazo Desejado: ${data.prazo}
-- Orçamento: ${data.orcamento}
-- Plataforma: ${data.plataforma}
 
 ==================================================
 01 — IDENTIFICAÇÃO
@@ -311,17 +273,9 @@ RESUMO EXECUTIVO:
 - Tom de voz selecionados: ${tomDeVozList || "Nenhum"}
 - Estilo a evitar: ${data.estiloEvitar || "Não informado"}
 
-==================================================
-05 — PRAZO & ORÇAMENTO
-==================================================
-- Prazo desejado: ${data.prazo}
-- Faixa de investimento: ${data.orcamento}
-- Plataforma preferida: ${data.plataforma}
-- Informações adicionais: ${data.extraInfo || "Nenhuma"}
-
 --------------------------------------------------
 Para responder ao cliente, basta dar reply/responder a este e-mail.
-Enviado por Mug Studio briefing wizard (https://mug.studio).
+Enviado por Mug Studio briefing wizard (https://mugstudio.com.br).
   `.trim();
 
   return { html, text };

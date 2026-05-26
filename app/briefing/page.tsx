@@ -84,7 +84,7 @@ export default function WelcomePage() {
       <div className="px-6 md:px-12 py-8 max-w-[720px] mx-auto w-full text-left">
         <Divider className="mb-6" />
         <span className="text-label-micro text-foreground-tertiary select-none">
-          5 ETAPAS · ~12 MIN
+          4 ETAPAS · ~10 MIN
         </span>
       </div>
     </div>

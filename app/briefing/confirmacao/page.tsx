@@ -75,7 +75,7 @@ function ConfirmationContent() {
           </span>
           <div>
             <a
-              href="https://mug.studio"
+              href="https://mugstudio.com.br"
               className="text-[13px] font-medium tracking-[0.15em] uppercase hover:underline inline-block select-none text-foreground-primary"
             >
               Voltar pro site →

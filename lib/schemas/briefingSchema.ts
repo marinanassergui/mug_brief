@@ -78,7 +78,7 @@ export const step3Schema = z.object({
 });
 
 // ==========================================
-// STAGE 4: REFERENCES & STYLE
+// STAGE 4: REFERENCES & BRAND STYLE (NOW LAST STAGE)
 // ==========================================
 export const step4Schema = z.object({
   ref1: z.string()
@@ -103,21 +103,6 @@ export const step4Schema = z.object({
   tomDeVoz: z.array(z.string())
     .min(1, "Selecione pelo menos um tom de voz para a marca"),
   estiloEvitar: z.string().optional(),
-});
-
-// ==========================================
-// STAGE 5: BUDGET & TIMELINE
-// ==========================================
-export const step5Schema = z.object({
-  prazo: z.string()
-    .min(1, "Selecione o prazo de entrega ideal"),
-  orcamento: z.string()
-    .min(1, "Selecione a faixa de investimento prevista"),
-  plataforma: z.string()
-    .min(1, "Selecione a plataforma de sua preferência"),
-  extraInfo: z.string()
-    .max(1000, "Limite máximo de 1000 caracteres excedido")
-    .optional(),
   concordo: z.boolean()
     .refine((val) => val === true, "Você precisa concordar em receber nosso retorno por e-mail"),
 });
@@ -130,7 +115,6 @@ export const briefingSchema = z.object({
   ...step2BaseSchema.shape,
   ...step3Schema.shape,
   ...step4Schema.shape,
-  ...step5Schema.shape,
 }).refine((data) => {
   if (data.setor === "Outro" && (!data.setorOutro || data.setorOutro.trim() === "")) {
     return false;
@@ -146,4 +130,3 @@ export type Step1Data = z.infer<typeof step1Schema>;
 export type Step2Data = z.infer<typeof step2Schema>;
 export type Step3Data = z.infer<typeof step3Schema>;
 export type Step4Data = z.infer<typeof step4Schema>;
-export type Step5Data = z.infer<typeof step5Schema>;
