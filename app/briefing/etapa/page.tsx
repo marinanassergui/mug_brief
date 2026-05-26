@@ -168,7 +168,15 @@ export default function BriefingWizardPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Erro ao enviar briefing.");
+        let detailMsg = "";
+        if (result.details) {
+          if (typeof result.details === "string") {
+            detailMsg = `: ${result.details}`;
+          } else {
+            detailMsg = `: ${JSON.stringify(result.details)}`;
+          }
+        }
+        throw new Error((result.error || "Erro ao enviar briefing.") + detailMsg);
       }
 
       // Success: clear draft, and redirect to confirmation page
