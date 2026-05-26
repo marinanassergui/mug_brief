@@ -55,7 +55,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         <div
           className={`relative border-b transition-colors duration-200 flex items-center ${
             error
-              ? "border-black border-b-[1.5px]"
+              ? "border-red-600 border-b-[1.5px]"
               : isFocused
               ? "border-black"
               : "border-black/30"
@@ -102,7 +102,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         {error && (
           <span
             id={`${name}-error`}
-            className="mt-2 text-[12px] font-medium font-sans text-foreground-primary block select-none"
+            className="mt-2 text-[12px] font-medium font-sans text-red-600 block select-none"
           >
             {error}
           </span>

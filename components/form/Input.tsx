@@ -72,7 +72,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <div
           className={`relative border-b transition-colors duration-200 ${
             error
-              ? "border-black border-b-[1.5px]"
+              ? "border-red-600 border-b-[1.5px]"
               : isFocused
               ? "border-black"
               : "border-black/30"
@@ -111,7 +111,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {error && (
           <span
             id={`${name}-error`}
-            className="mt-2 text-[12px] font-medium font-sans text-foreground-primary block select-none"
+            className="mt-2 text-[12px] font-medium font-sans text-red-600 block select-none"
           >
             {error}
           </span>

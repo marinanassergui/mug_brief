@@ -53,7 +53,7 @@ export function MultiSelect({ label, options, error, registration, values = [] }
         })}
       </div>
       {error && (
-        <span className="text-[12px] font-medium font-sans text-foreground-primary block select-none">
+        <span className="text-[12px] font-medium font-sans text-red-600 block select-none">
           {error}
         </span>
       )}

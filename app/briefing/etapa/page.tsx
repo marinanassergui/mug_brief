@@ -524,7 +524,7 @@ export default function BriefingWizardPage() {
                         </span>
                       </label>
                       {errors.concordo && (
-                        <span className="text-[12px] font-medium font-sans text-foreground-primary block select-none">
+                        <span className="text-[12px] font-medium font-sans text-red-600 block select-none">
                           {errors.concordo.message}
                         </span>
                       )}
