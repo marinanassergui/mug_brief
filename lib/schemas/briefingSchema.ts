@@ -1,5 +1,28 @@
 import { z } from "zod";
 
+// Helper robusto para URLs opcionais que tolera URL válida, string vazia, null e undefined
+const optionalUrl = z.string()
+  .url("Insira uma URL válida ou deixe em branco")
+  .optional()
+  .or(z.literal(""))
+  .or(z.null())
+  .or(z.undefined());
+
+// Helper robusto para Referências de URLs opcionais
+const optionalRefUrl = z.string()
+  .url("Insira uma URL de referência válida ou deixe em branco")
+  .optional()
+  .or(z.literal(""))
+  .or(z.null())
+  .or(z.undefined());
+
+// Helper para strings normais opcionais tolerando null e undefined
+const optionalString = z.string()
+  .optional()
+  .or(z.literal(""))
+  .or(z.null())
+  .or(z.undefined());
+
 // ==========================================
 // STAGE 1: IDENTIFICATION
 // ==========================================
@@ -15,10 +38,7 @@ export const step1Schema = z.object({
     .min(14, "Digite um número de WhatsApp válido"),
   empresa: z.string()
     .min(1, "Qual o nome da empresa ou projeto?"),
-  site: z.string()
-    .url("Insira uma URL válida ou deixe em branco")
-    .optional()
-    .or(z.literal("")),
+  site: optionalUrl,
   cargo: z.string()
     .min(1, "Qual é o seu cargo ou função?"),
   comoConheceu: z.string()
@@ -43,7 +63,7 @@ export const step2BaseSchema = z.object({
     .min(1, "Selecione o estágio do produto"),
   setor: z.string()
     .min(1, "Selecione o setor da sua empresa"),
-  setorOutro: z.string().optional(),
+  setorOutro: optionalString,
 });
 
 export const step2Schema = step2BaseSchema.refine((data) => {
@@ -68,41 +88,26 @@ export const step3Schema = z.object({
   metricaSucesso: z.string()
     .min(1, "Nos informe a métrica de sucesso desejada")
     .min(5, "Descreva a métrica de sucesso com mais detalhes"),
-  siteLPAtual: z.string()
-    .url("Insira uma URL válida ou deixe em branco")
-    .optional()
-    .or(z.literal("")),
-  problemasLPAtual: z.string().optional(),
+  siteLPAtual: optionalUrl,
+  problemasLPAtual: optionalString,
   estadoCopy: z.string()
     .min(1, "Nos diga qual o estado dos textos da LP"),
 });
 
 // ==========================================
-// STAGE 4: REFERENCES & BRAND STYLE (NOW LAST STAGE)
+// STAGE 4: REFERENCES & BRAND STYLE
 // ==========================================
 export const step4Schema = z.object({
-  ref1: z.string()
-    .url("Insira uma URL de referência válida ou deixe em branco")
-    .optional()
-    .or(z.literal("")),
-  ref2: z.string()
-    .url("Insira uma URL de referência válida ou deixe em branco")
-    .optional()
-    .or(z.literal("")),
-  ref3: z.string()
-    .url("Insira uma URL de referência válida ou deixe em branco")
-    .optional()
-    .or(z.literal("")),
-  refMotivo: z.string().optional(),
+  ref1: optionalRefUrl,
+  ref2: optionalRefUrl,
+  ref3: optionalRefUrl,
+  refMotivo: optionalString,
   identidadeVisual: z.string()
     .min(1, "Nos diga qual o estado da sua identidade visual"),
-  brandbookDrive: z.string()
-    .url("Insira uma URL válida ou deixe em branco")
-    .optional()
-    .or(z.literal("")),
+  brandbookDrive: optionalUrl,
   tomDeVoz: z.array(z.string())
     .min(1, "Selecione pelo menos um tom de voz para a marca"),
-  estiloEvitar: z.string().optional(),
+  estiloEvitar: optionalString,
   concordo: z.boolean()
     .refine((val) => val === true, "Você precisa concordar em receber nosso retorno por e-mail"),
 });
