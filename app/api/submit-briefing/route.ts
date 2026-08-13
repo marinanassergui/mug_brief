@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { briefingSchema } from "@/lib/schemas/briefingSchema";
 import { sendBriefingEmail } from "@/lib/email/sendEmail";
 
+export const dynamic = 'force-dynamic';
+
 /**
  * API route to receive, validate, and send the briefing form responses.
  * Endpoint: POST /api/submit-briefing

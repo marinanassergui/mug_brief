@@ -2,17 +2,18 @@ import { Resend } from "resend";
 import { formatEmail } from "./formatEmail";
 import { BriefingData } from "../schemas/briefingSchema";
 
-const resendApiKey = process.env.RESEND_API_KEY;
-const studioEmail = process.env.STUDIO_EMAIL || "hellomugstudio@gmail.com";
-const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
-
 /**
  * Sends a briefing email to hellomugstudio@gmail.com via the Resend API.
  * Maps replyTo to the client's email so the studio can reply directly.
  */
 export async function sendBriefingEmail(data: BriefingData) {
+  // Ler variáveis de ambiente em tempo de execução para evitar congelamento de variáveis estáticas no build do Next.js/Vercel
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const studioEmail = process.env.STUDIO_EMAIL || "hellomugstudio@gmail.com";
+  const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
+
   if (!resendApiKey) {
-    throw new Error("Missing RESEND_API_KEY environment variable. Configure it in .env.local");
+    throw new Error("Missing RESEND_API_KEY environment variable. Configure it in your Vercel or local environment variables.");
   }
 
   const resend = new Resend(resendApiKey);
